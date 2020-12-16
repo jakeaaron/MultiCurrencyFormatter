@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp"
+        tools:context=".MainActivity">
+
+        <EditText
+            android:id="@+id/gift"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="24dp"
+            android:background="@null"
+            android:digits="1234567890.,"
+            android:hint="0"
+            android:inputType="numberDecimal"
+            android:minWidth="60dp"
+            android:singleLine="true"
+            android:textColor="@android:color/holo_green_dark"
+            android:textColorHint="?android:textColorSecondary"
+            android:textSize="64sp"
+            android:textStyle="bold"
+            tools:text="$250" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/btnContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:flexWrap="wrap"
+            app:justifyContent="space_evenly" />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        app:backgroundTint="@android:color/holo_green_dark"
+        android:text="Cash Out"
+        android:textColor="@android:color/white"
+        app:iconTint="@android:color/white"
+        app:icon="@android:drawable/ic_menu_upload" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
