@@ -4,7 +4,7 @@
 
 **Screenshot**:
 
-
+![Android Currency Formatter in use](/currency-formatter.gif)
 
 
 ## Dependencies
