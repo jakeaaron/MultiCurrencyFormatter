@@ -1,4 +1,4 @@
-package com.example.currency
+package com.jacoballenwood.currency
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

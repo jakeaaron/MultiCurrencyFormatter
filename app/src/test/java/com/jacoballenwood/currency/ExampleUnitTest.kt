@@ -1,4 +1,4 @@
-package com.example.currency
+package com.jacoballenwood.currency
 
 import org.junit.Test
 

@@ -1,17 +1,12 @@
-package com.example.currency
+package com.jacoballenwood.currency
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
-import com.example.currencylibrary.CurrencyFormatter
-import com.example.currencylibrary.CurrencyTextWatcher
 import com.google.android.flexbox.FlexboxLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import java.lang.ref.WeakReference
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
