@@ -7,17 +7,30 @@
 ![Android Currency Formatter in use](/currency-formatter.gif)
 
 
-## Dependencies
+## Requirements
 
-Describe any dependencies that must be installed for this software to work.
-This includes programming languages, databases or other storage mechanisms, build tools, frameworks, and so forth.
-If specific versions of other software are required, or known not to work, call that out.
+- Android 4.1 (API 16)
 
 ## Installation
 
-Detailed instructions on how to install, configure, and get the project running.
-This should be frequently tested to ensure reliability. Alternatively, link to
-a separate [INSTALL](INSTALL.md) document.
+Add Jitpack to your project build.gralde file
+ 
+```
+allprojects {
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
+}
+```
+
+Then add this dependency to your app build.gradle file.
+
+```
+dependencies {
+  implementation 'com.github.adawoud:BottomSheetTimeRangePicker:latest-release'
+}
+```
 
 ## Configuration
 
