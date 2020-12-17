@@ -1,8 +1,10 @@
-package com.jacoballenwood.currency
+package com.jacoballenwood.formatter
 
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.RelativeSizeSpan
+import com.jacoballenwood.formatter.ext.withSuperscript
+import com.jacoballenwood.formatter.util.SuperscriptSpanAdjuster
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.Currency
@@ -14,7 +16,8 @@ class CurrencyFormatter private constructor(
     internal val locale: Locale
 ) {
 
-    private val currencyFormatter: DecimalFormat = NumberFormat.getCurrencyInstance(locale) as DecimalFormat
+    private val currencyFormatter: DecimalFormat =
+        NumberFormat.getCurrencyInstance(locale) as DecimalFormat
     private val roundedCurrencyFormatter: DecimalFormat
     private val numberFormatter: NumberFormat = NumberFormat.getNumberInstance(locale)
     val decimalSeparator: Char = currencyFormatter.decimalFormatSymbols.decimalSeparator
@@ -57,20 +60,8 @@ class CurrencyFormatter private constructor(
     } else
         currencyFormatter.format(currency)
 
-    fun String.withSuperscript(): Spannable = SpannableString(this).apply {
-        setSpan(
-            SuperscriptSpanAdjuster(0.4f),
-            this.indexOf(symbol.first()),
-            this.indexOf(symbol.last()) + 1,
-            0
-        )
-        setSpan(
-            RelativeSizeSpan(0.5f),
-            this.indexOf(symbol.first()),
-            this.indexOf(symbol.last()) + 1,
-            0
-        )
-    }
+    fun String.withSuperscript(): Spannable =
+        this.withSuperscript(this.indexOf(symbol.first()), this.indexOf(symbol.last()) + 1)
 
     companion object {
 

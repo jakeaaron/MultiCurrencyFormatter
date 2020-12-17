@@ -1,4 +1,4 @@
-package com.jacoballenwood.currency
+package com.jacoballenwood.formatter
 
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,7 +8,7 @@ import java.lang.ref.WeakReference
 
 open class AutoSizingTextWatcher(editText: EditText) : TextWatcher {
 
-    private val _editText = WeakReference<EditText>(editText)
+    private val _editText = WeakReference(editText)
     private val editText: EditText
         get() = _editText.get()!!
 

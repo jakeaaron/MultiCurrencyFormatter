@@ -1,4 +1,4 @@
-package com.jacoballenwood.currency
+package com.jacoballenwood.formatter.util
 
 import android.text.TextPaint
 import android.text.style.MetricAffectingSpan

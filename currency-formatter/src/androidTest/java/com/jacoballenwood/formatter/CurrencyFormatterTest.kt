@@ -1,4 +1,4 @@
-package com.jacoballenwood.currency
+package com.jacoballenwood.formatter
 
 import java.util.Currency
 import java.util.Locale

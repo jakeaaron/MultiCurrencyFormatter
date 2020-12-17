@@ -1,4 +1,4 @@
-package com.jacoballenwood.currency
+package com.jacoballenwood.formatter
 
 import android.widget.EditText
 import androidx.test.platform.app.InstrumentationRegistry

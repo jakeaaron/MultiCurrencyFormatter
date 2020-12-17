@@ -1,13 +1,18 @@
-package com.jacoballenwood.currency
+package com.jacoballenwood.formatter.ui
 
 import android.text.Editable
+import android.text.TextWatcher
 import android.widget.EditText
+import com.jacoballenwood.formatter.AutoSizingTextWatcher
+import com.jacoballenwood.formatter.CurrencyFormatter
+import com.jacoballenwood.formatter.util.StringUtil.indexOfLastDigit
 import java.lang.ref.WeakReference
 
-open class CurrencyTextWatcher(editText: EditText) : AutoSizingTextWatcher(editText) {
+open class CurrencyTextWatcher(editText: EditText) : AutoSizingTextWatcher(editText),
+    ICurrencyTextWatcher {
 
-    private var _editText = WeakReference<EditText>(editText)
-    private val editText: EditText
+    private var _editText = WeakReference(editText)
+    val editText: EditText
         get() = _editText.get()!!
     private var formatter = CurrencyFormatter.getInstance()
 
@@ -16,12 +21,24 @@ open class CurrencyTextWatcher(editText: EditText) : AutoSizingTextWatcher(editT
     private var isDeleting = false
 
     private var useDecimals = false
-    var currencyVal: Double = 0.0
-        private set
-    val amount: String?
+    private var currencyValData: Double = 0.0
+    override val currencyVal: Double
+        get() = currencyValData
+    override val amount: String?
         get() = editText.text?.toString()
 
-    fun setFormatter(formatter: CurrencyFormatter) {
+    var withSuperScript = true
+    var withAutoResize = true
+
+    init {
+        initialize()
+    }
+
+    private fun initialize() {
+        editText.addTextChangedListener(this)
+    }
+
+    override fun setFormatter(formatter: CurrencyFormatter) {
         this.formatter = formatter
         editText.hint = formatter.run {
             format(0.0, false).withSuperscript()
@@ -29,11 +46,16 @@ open class CurrencyTextWatcher(editText: EditText) : AutoSizingTextWatcher(editT
         setAmount(formatter.format(currencyVal, useDecimals))
     }
 
-    fun setAmount(amount: String) {
+    override fun setAmount(amount: String) {
         useDecimals = amount.contains(formatter.decimalSeparator)
         val formatted = formatter.run {
-            currencyVal = parse(amount)
-            format(amount, useDecimals).withSuperscript()
+            currencyValData = parse(amount)
+            format(amount, useDecimals).run {
+                if (withSuperScript)
+                    withSuperscript()
+                else
+                    this
+            }
         }
         if (currencyVal > 0)
             editText.setText(formatted)
@@ -41,7 +63,7 @@ open class CurrencyTextWatcher(editText: EditText) : AutoSizingTextWatcher(editT
             editText.text?.clear()
     }
 
-    private fun setSelection() {
+    private fun updateSelection() {
         val sel = if (currentIndexOfCents > -1) {
             (indexOfDecimalPoint + currentIndexOfCents) + if (isDeleting) 0 else 1
         } else
@@ -52,27 +74,18 @@ open class CurrencyTextWatcher(editText: EditText) : AutoSizingTextWatcher(editT
             editText.setSelection(editText.length())
     }
 
-    private fun indexOfLastDigit(str: String?): Int {
-        var result = 0
-        str ?: return result
-        for (i in str.indices) {
-            if (Character.isDigit(str[i])) {
-                result = i
-            }
-        }
-        return result
-    }
-
     override fun afterTextChanged(s: Editable?) {
         editText.removeTextChangedListener(this)
         setAmount(editText.text.toString())
-        setSelection()
-        super.afterTextChanged(s)
+        updateSelection()
+        if (withAutoResize)
+            super.afterTextChanged(s)
         editText.addTextChangedListener(this)
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        super.onTextChanged(s, start, before, count)
+        if (withAutoResize)
+            super.onTextChanged(s, start, before, count)
         isDeleting = count < 1
         indexOfDecimalPoint = (s?.indexOf(formatter.decimalSeparator) ?: 0)
         val wasUsingDecimals = useDecimals
@@ -87,7 +100,16 @@ open class CurrencyTextWatcher(editText: EditText) : AutoSizingTextWatcher(editT
         }
     }
 
-    fun cleanup() {
+    override fun destroy() {
+        _editText.get()?.removeTextChangedListener(this)
         _editText.clear()
     }
+}
+
+interface ICurrencyTextWatcher : TextWatcher {
+    val currencyVal: Double
+    val amount: String?
+    fun setFormatter(formatter: CurrencyFormatter)
+    fun setAmount(amount: String)
+    fun destroy()
 }
