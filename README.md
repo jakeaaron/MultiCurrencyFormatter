@@ -1,10 +1,10 @@
-# Android Currency Formatter
+# Multi-Currency Formatter
 
-**Description**:  The Android Currency Formatter is a small library that reformats user input (from an `EditText`) for displaying currency values. It handles multiple currencies and locales, and automatically resizes the text to fit the `EditText`. It also formats the currency as a whole number, or decimal, depending on what the user inputs. Java's `DecimalFormat` is used for formatting the numbers derived from user input.
+**Description**:  The Multi-Currency Formatter is a small Android library that reformats user input (from an `EditText`) for displaying currency values. It handles multiple currencies and locales, and automatically resizes the text to fit the `EditText`. It also formats the currency as a whole number, or decimal, depending on what the user inputs. Java's `DecimalFormat` is used for formatting the numbers derived from user input.
 
 **Screenshot**:
 
-![Android Currency Formatter in use](/currency-formatter.gif)
+![Currency Formatter in use](/currency-formatter.gif)
 
 
 ## Requirements
