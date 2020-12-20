@@ -5,15 +5,17 @@ import android.text.Spannable
 import android.text.TextWatcher
 import android.widget.EditText
 import androidx.core.text.trimmedLength
+import com.jacoballenwood.formatter.ext.fitText
 import com.jacoballenwood.formatter.ext.withSuperscript
 import com.jacoballenwood.formatter.util.ICurrencyFormatter
 import com.jacoballenwood.formatter.util.StringUtil.indexOfLastDigit
 import java.lang.ref.WeakReference
 import java.math.BigDecimal
 
-open class CurrencyTextWatcher(editText: EditText, currencyFormatter: ICurrencyFormatter) :
-    AutoSizingTextWatcher(editText),
-    ICurrencyTextWatcher {
+open class CurrencyTextWatcher(
+    editText: EditText,
+    currencyFormatter: ICurrencyFormatter
+) : ICurrencyTextWatcher, TextWatcher {
 
     private var _editText = WeakReference(editText)
     private val requireEditText: EditText
@@ -89,15 +91,12 @@ open class CurrencyTextWatcher(editText: EditText, currencyFormatter: ICurrencyF
         requireEditText.removeTextChangedListener(this)
         amount = requireEditText.text.toString()
         updateSelection()
-        // TODO: replace autosize functionality with composition, rather than inheritance
         if (withAutoResize)
-            super.afterTextChanged(s)
+            requireEditText.fitText()
         requireEditText.addTextChangedListener(this)
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        if (withAutoResize)
-            super.onTextChanged(s, start, before, count)
         isDeleting = count < 1
         indexOfDecimalPoint =
             (s?.indexOf(formatter.underlyingDecimalFormat.decimalFormatSymbols.decimalSeparator)
@@ -115,8 +114,6 @@ open class CurrencyTextWatcher(editText: EditText, currencyFormatter: ICurrencyF
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        if (withAutoResize)
-            super.beforeTextChanged(s, start, count, after)
     }
 
     override fun destroy() {
