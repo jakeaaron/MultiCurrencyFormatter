@@ -7,7 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.snackbar.Snackbar
-import com.jacoballenwood.formatter.CurrencyFormatter
+import com.jacoballenwood.formatter.util.CurrencyFormatter
 import com.jacoballenwood.formatter.MultiCurrencyFormatter
 import java.util.*
 
@@ -22,13 +22,14 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<EditText>(R.id.gift)?.let { editText ->
             formatter = MultiCurrencyFormatter.newInstance(this, editText)
-                .setCurrencyFormatter(
-                    CurrencyFormatter.getInstance(
-                        Currency.getInstance(Locale.US),
-                        "💸", // show setting a custom symbol
-                        Locale.US
-                    )
-                )
+//                .setCurrencyFormatter(
+//                    CurrencyFormatter.getInstance(
+//                        Currency.getInstance(Locale.US),
+//                        "💸", // show setting a custom symbol
+//                        Locale.US
+//                    )
+//                )
+                .setSymbol("💸")
         }
 
         findViewById<FlexboxLayout>(R.id.btnContainer)?.let { container ->
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onChangeCurrency(locale: Locale) {
+        formatter?.setAmount("0")
         formatter?.setCurrencyFormatter(CurrencyFormatter.getInstance(locale))
     }
 

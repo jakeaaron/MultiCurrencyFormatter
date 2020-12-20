@@ -2,6 +2,8 @@ package com.jacoballenwood.formatter
 
 import android.widget.EditText
 import androidx.test.platform.app.InstrumentationRegistry
+import com.jacoballenwood.formatter.ui.CurrencyTextWatcher
+import com.jacoballenwood.formatter.util.CurrencyFormatter
 import java.util.Currency
 import java.util.Locale
 import junit.framework.Assert.assertEquals
@@ -21,8 +23,7 @@ class CurrencyTextWatcherTest {
         val currencyFormatter =
             CurrencyFormatter.getInstance(locale = usLocale, currency = currency, symbol = symbol)
         val editText = EditText(context)
-        CurrencyTextWatcher(editText).apply {
-            setFormatter(currencyFormatter)
+        CurrencyTextWatcher(editText, currencyFormatter).apply {
             editText.addTextChangedListener(this)
         }
 

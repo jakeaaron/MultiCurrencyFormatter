@@ -1,35 +1,33 @@
 package com.jacoballenwood.formatter
 
-import android.app.Activity
-import android.app.Application
-import android.content.Context
-import android.os.Bundle
-import android.text.TextWatcher
 import android.widget.EditText
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import com.jacoballenwood.formatter.ui.CurrencyTextWatcher
 import com.jacoballenwood.formatter.ui.ICurrencyTextWatcher
+import com.jacoballenwood.formatter.util.CurrencyFormatter
+import com.jacoballenwood.formatter.util.ICurrencyFormatter
+import java.math.BigDecimal
 import java.util.*
 
 class MultiCurrencyFormatter private constructor(
-    fragmentActivity: FragmentActivity,
-    var currencyTextWatcher: CurrencyTextWatcher,
-    var currencyFormatter: CurrencyFormatter
+    lifecycleOwner: LifecycleOwner,
+    var currencyTextWatcher: ICurrencyTextWatcher
 ) {
 
-    val textValue: String?
+    val textValue: String
         get() = currencyTextWatcher.amount
-    val numberValue: Double
-        get() = currencyTextWatcher.currencyVal
+    val numberValue: BigDecimal
+        get() = currencyTextWatcher.numberValue
 
     private var lifecycleObserver: LifecycleObserver? = object : LifecycleObserver {
+
         @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         fun destroy() {
             currencyTextWatcher.destroy()
-            fragmentActivity.lifecycle.removeObserver(
+            lifecycleOwner.lifecycle.removeObserver(
                 this
             )
             lifecycleObserver = null
@@ -37,7 +35,7 @@ class MultiCurrencyFormatter private constructor(
     }
 
     init {
-        fragmentActivity.lifecycle.addObserver(lifecycleObserver!!)
+        lifecycleOwner.lifecycle.addObserver(lifecycleObserver!!)
     }
 
     fun setLocale(locale: Locale): MultiCurrencyFormatter {
@@ -48,9 +46,9 @@ class MultiCurrencyFormatter private constructor(
     fun setSymbol(symbol: String): MultiCurrencyFormatter {
         setCurrencyFormatter(
             CurrencyFormatter.getInstance(
-                currencyFormatter.currency,
+                currencyTextWatcher.formatter.currency,
                 symbol,
-                currencyFormatter.locale
+                currencyTextWatcher.formatter.locale
             )
         )
         return this
@@ -60,16 +58,15 @@ class MultiCurrencyFormatter private constructor(
         setCurrencyFormatter(
             CurrencyFormatter.getInstance(
                 currency,
-                currencyFormatter.symbol,
-                currencyFormatter.locale
+                currencyTextWatcher.formatter.symbol,
+                currencyTextWatcher.formatter.locale
             )
         )
         return this
     }
 
-    fun setCurrencyFormatter(currencyFormatter: CurrencyFormatter): MultiCurrencyFormatter {
-        this.currencyFormatter = currencyFormatter
-        currencyTextWatcher.setFormatter(currencyFormatter)
+    fun setCurrencyFormatter(currencyFormatter: ICurrencyFormatter): MultiCurrencyFormatter {
+        currencyTextWatcher.formatter = currencyFormatter
         return this
     }
 
@@ -78,24 +75,26 @@ class MultiCurrencyFormatter private constructor(
         return this
     }
 
-    fun setSuperscript(enabled: Boolean): MultiCurrencyFormatter {
-        currencyTextWatcher.withSuperScript = enabled
+    fun setSymbolSuperscript(enabled: Boolean): MultiCurrencyFormatter {
+        currencyTextWatcher.withSymbolSuperscript = enabled
         return this
     }
 
     fun setAmount(amount: String) {
-        currencyTextWatcher.setAmount(amount)
+        currencyTextWatcher.amount = amount
     }
 
     companion object {
 
         fun newInstance(
-            fragmentActivity: FragmentActivity,
+            lifecycleOwner: LifecycleOwner,
             editText: EditText,
-            currencyTextWatcher: CurrencyTextWatcher? = CurrencyTextWatcher(editText),
-            currencyFormatter: CurrencyFormatter? = CurrencyFormatter.getInstance()
+            currencyFormatter: ICurrencyFormatter? = CurrencyFormatter.getInstance(),
+            currencyTextWatcher: ICurrencyTextWatcher? = CurrencyTextWatcher(editText, currencyFormatter!!)
         ): MultiCurrencyFormatter =
-            MultiCurrencyFormatter(fragmentActivity, currencyTextWatcher!!, currencyFormatter!!)
+            MultiCurrencyFormatter(lifecycleOwner, currencyTextWatcher!!.apply {
+                formatter = currencyFormatter!!
+            })
 
     }
 

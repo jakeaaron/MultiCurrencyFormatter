@@ -1,5 +1,6 @@
 package com.jacoballenwood.formatter
 
+import com.jacoballenwood.formatter.util.CurrencyFormatter
 import java.util.Currency
 import java.util.Locale
 import org.junit.Assert.assertEquals

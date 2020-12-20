@@ -1,4 +1,4 @@
-package com.jacoballenwood.formatter
+package com.jacoballenwood.formatter.ui
 
 import android.text.Editable
 import android.text.TextWatcher

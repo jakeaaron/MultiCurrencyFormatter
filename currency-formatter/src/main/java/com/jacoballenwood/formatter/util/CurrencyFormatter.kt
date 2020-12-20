@@ -1,26 +1,22 @@
-package com.jacoballenwood.formatter
+package com.jacoballenwood.formatter.util
 
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.RelativeSizeSpan
-import com.jacoballenwood.formatter.ext.withSuperscript
-import com.jacoballenwood.formatter.util.SuperscriptSpanAdjuster
+import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.NumberFormat
-import java.util.Currency
-import java.util.Locale
+import java.util.*
 
 class CurrencyFormatter private constructor(
-    internal val currency: Currency,
-    internal val symbol: String,
-    internal val locale: Locale
-) {
+    override val currency: Currency,
+    override val symbol: String,
+    override val locale: Locale
+) : ICurrencyFormatter {
 
     private val currencyFormatter: DecimalFormat =
         NumberFormat.getCurrencyInstance(locale) as DecimalFormat
     private val roundedCurrencyFormatter: DecimalFormat
     private val numberFormatter: NumberFormat = NumberFormat.getNumberInstance(locale)
-    val decimalSeparator: Char = currencyFormatter.decimalFormatSymbols.decimalSeparator
+    override val underlyingDecimalFormat: DecimalFormat
+        get() = currencyFormatter
 
     init {
         val symbols = currencyFormatter.decimalFormatSymbols
@@ -34,34 +30,31 @@ class CurrencyFormatter private constructor(
         }
     }
 
-    fun parse(currency: String): Double {
+    override fun parse(currency: String): BigDecimal {
         val javaCurrency = currencyFormatter.currency
         val str = currency.replace(javaCurrency?.symbol ?: "", "")
             .replace(javaCurrency?.currencyCode ?: "", "")
             .replace(symbol, "")
             .replace(cleaningRegex, "")
         return try {
-            currencyFormatter.parse(str)?.toDouble()!!
+            BigDecimal(currencyFormatter.parse(str)?.toString())
         } catch (e: Exception) {
             try {
-                numberFormatter.parse(str)?.toDouble()!!
+                BigDecimal(numberFormatter.parse(str)?.toString())
             } catch (e2: Exception) {
-                str.toDoubleOrNull() ?: 0.0
+                BigDecimal(str.takeIf { it.isNotEmpty() } ?: "0")
             }
         }
     }
 
-    fun format(currency: String, decimals: Boolean): String {
+    override fun format(currency: String, decimals: Boolean): String {
         return format(parse(currency), decimals)
     }
 
-    fun format(currency: Double, decimals: Boolean): String = if (!decimals) {
+    override fun format(currency: BigDecimal, decimals: Boolean): String = if (!decimals) {
         roundedCurrencyFormatter.format(currency.toInt())
     } else
         currencyFormatter.format(currency)
-
-    fun String.withSuperscript(): Spannable =
-        this.withSuperscript(this.indexOf(symbol.first()), this.indexOf(symbol.last()) + 1)
 
     companion object {
 
@@ -84,4 +77,14 @@ class CurrencyFormatter private constructor(
             return instance!!
         }
     }
+}
+
+interface ICurrencyFormatter {
+    val currency: Currency
+    val symbol: String
+    val locale: Locale
+    val underlyingDecimalFormat: DecimalFormat
+    fun parse(currency: String): BigDecimal
+    fun format(currency: String, decimals: Boolean): String
+    fun format(currency: BigDecimal, decimals: Boolean): String
 }
