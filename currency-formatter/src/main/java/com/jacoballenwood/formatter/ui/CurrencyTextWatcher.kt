@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.Spannable
 import android.text.TextWatcher
 import android.widget.EditText
+import androidx.core.text.trimmedLength
 import com.jacoballenwood.formatter.ext.withSuperscript
 import com.jacoballenwood.formatter.util.ICurrencyFormatter
 import com.jacoballenwood.formatter.util.StringUtil.indexOfLastDigit

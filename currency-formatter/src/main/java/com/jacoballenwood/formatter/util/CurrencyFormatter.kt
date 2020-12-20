@@ -36,7 +36,7 @@ class CurrencyFormatter private constructor(
             .replace(javaCurrency?.currencyCode ?: "", "")
             .replace(symbol, "")
             .replace(cleaningRegex, "")
-        return try {
+        return (try {
             BigDecimal(currencyFormatter.parse(str)?.toString())
         } catch (e: Exception) {
             try {
@@ -44,7 +44,7 @@ class CurrencyFormatter private constructor(
             } catch (e2: Exception) {
                 BigDecimal(str.takeIf { it.isNotEmpty() } ?: "0")
             }
-        }
+        }).setScale(currencyFormatter.maximumFractionDigits, BigDecimal.ROUND_DOWN)
     }
 
     override fun format(currency: String, decimals: Boolean): String {

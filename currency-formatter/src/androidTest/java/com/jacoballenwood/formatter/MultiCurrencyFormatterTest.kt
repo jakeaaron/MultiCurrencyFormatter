@@ -12,6 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import java.util.*
+import java.math.BigDecimal
 
 class TestActivity : FragmentActivity()
 
@@ -40,7 +41,7 @@ class MultiCurrencyFormatterTest {
         formatter.setAmount("$25.00")
         Assert.assertEquals("$25.00", formatter.textValue)
         formatter.setAmount("$50.00")
-        Assert.assertEquals(50.00, formatter.numberValue, 0.00)
+        Assert.assertEquals(BigDecimal(50.00), formatter.numberValue)
     }
 
     @Test
