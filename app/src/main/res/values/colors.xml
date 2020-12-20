@@ -5,5 +5,5 @@
     <color name="colorAccent">@android:color/darker_gray</color>
     <color name="green">#5CC565</color>
     <color name="green_bright">#61CF6B</color>
-    <color name="green_darker">#35AC3F</color>
+    <color name="green_darker">#48B15C</color>
 </resources>
