@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<EditText>(R.id.gift)?.let { editText ->
             formatter = MultiCurrencyFormatter.newInstance(this, editText)
-                .setLocale(Locale.US)
+                .setLocale(Locale.US) // set initial locale
                 .setSymbol("💸") // set custom symbol
         }
 
@@ -72,6 +72,20 @@ class MainActivity : AppCompatActivity() {
         formatter?.setAmount("0")
     }
 
+    /**
+     * We can do this a few different ways:
+     *
+     * 1. formatter.setLocale(locale)
+     *      will update just the locale and keep the previous currency and symbol
+     *
+     * 2. formatter.setCurrencyFormatter(CurrencyFormatter.getInstance(locale))
+     *      will set a new formatter with currency and symbol derived from the locale
+     *
+     * 3. formatter.setCurrencyFormatter(CurrencyFormatter.getInstance(currency, symbol, locale))
+     *      will set a new formatter with all new values
+     *
+     * @see CurrencyFormatter.getInstance(locale)
+     */
     private fun changeLocale(locale: Locale) {
         formatter?.setAmount("0")
         formatter?.setCurrencyFormatter(CurrencyFormatter.getInstance(locale))

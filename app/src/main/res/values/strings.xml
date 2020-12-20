@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Currency</string>
     <string name="cash_out">💸 Cash Out</string>
+    <string name="zero_numeric">0</string>
 </resources>

@@ -40,16 +40,22 @@ class MultiCurrencyFormatter private constructor(
     }
 
     fun setLocale(locale: Locale): MultiCurrencyFormatter {
-        setCurrencyFormatter(CurrencyFormatter.getInstance(locale))
+        setCurrencyFormatter(
+            CurrencyFormatter.getInstance(
+                currency,
+                symbol,
+                locale
+            )
+        )
         return this
     }
 
     fun setSymbol(symbol: String): MultiCurrencyFormatter {
         setCurrencyFormatter(
             CurrencyFormatter.getInstance(
-                currencyTextWatcher.formatter.currency,
+                currency,
                 symbol,
-                currencyTextWatcher.formatter.locale
+                locale
             )
         )
         return this
@@ -59,8 +65,8 @@ class MultiCurrencyFormatter private constructor(
         setCurrencyFormatter(
             CurrencyFormatter.getInstance(
                 currency,
-                currencyTextWatcher.formatter.symbol,
-                currencyTextWatcher.formatter.locale
+                symbol,
+                locale
             )
         )
         return this
@@ -91,7 +97,10 @@ class MultiCurrencyFormatter private constructor(
             lifecycleOwner: LifecycleOwner,
             editText: EditText,
             currencyFormatter: ICurrencyFormatter? = CurrencyFormatter.getInstance(),
-            currencyTextWatcher: ICurrencyTextWatcher? = CurrencyTextWatcher(editText, currencyFormatter!!)
+            currencyTextWatcher: ICurrencyTextWatcher? = CurrencyTextWatcher(
+                editText,
+                currencyFormatter!!
+            )
         ): MultiCurrencyFormatter =
             MultiCurrencyFormatter(lifecycleOwner, currencyTextWatcher!!.apply {
                 formatter = currencyFormatter!!

@@ -5,6 +5,17 @@ import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 
+/**
+ * CurrencyFormatter parses and formats currency values based on the currency, symbol, and locale parameters
+ *
+ * @param currency the currency that the underlying NumberFormat will use to format and parse currency values
+ * @param symbol the currency symbol to use for formatting the currency string
+ * @param locale the locale that the underlying NumberFormat will use to format and parse currency values
+ *
+ * @see NumberFormat.getCurrencyInstance
+ * @see NumberFormat.setCurrency
+ * @see java.text.DecimalFormatSymbols
+ */
 class CurrencyFormatter private constructor(
     override val currency: Currency,
     override val symbol: String,
@@ -30,6 +41,21 @@ class CurrencyFormatter private constructor(
         }
     }
 
+    /**
+     * Parses the given text to produce a BigDecimal Number
+     *
+     * If the text cannot be parsed properly, a value of BigDecimal.ZERO will be returned
+     *
+     * The BigDecimal will be scaled to include only the number of fractional digits allowed by NumberFormat.maximumFractionDigits
+     *
+     * @param currency the currency value to be parsed
+     *
+     * @return a BigDecimal parsed from the string
+     *
+     * @see NumberFormat.getMaximumFractionDigits
+     * @see NumberFormat.parse
+     * @see BigDecimal
+     */
     override fun parse(currency: String): BigDecimal {
         val javaCurrency = currencyFormatter.currency
         val str = currency.replace(javaCurrency?.symbol ?: "", "")
@@ -47,10 +73,16 @@ class CurrencyFormatter private constructor(
         }).setScale(currencyFormatter.maximumFractionDigits, BigDecimal.ROUND_DOWN)
     }
 
+    /**
+     *
+     */
     override fun format(currency: String, decimals: Boolean): String {
         return format(parse(currency), decimals)
     }
 
+    /**
+     *
+     */
     override fun format(currency: BigDecimal, decimals: Boolean): String = if (!decimals) {
         roundedCurrencyFormatter.format(currency.toInt())
     } else
@@ -62,6 +94,9 @@ class CurrencyFormatter private constructor(
 
         private var instance: CurrencyFormatter? = null
 
+        /**
+         *
+         */
         fun getInstance(locale: Locale = Locale.getDefault()): CurrencyFormatter {
             val currency = try {
                 Currency.getInstance(locale)
@@ -71,6 +106,9 @@ class CurrencyFormatter private constructor(
             return getInstance(currency, currency.symbol, locale)
         }
 
+        /**
+         *
+         */
         fun getInstance(currency: Currency, symbol: String, locale: Locale): CurrencyFormatter {
             if (instance?.currency != currency || instance?.symbol != symbol || instance?.locale != locale)
                 instance = CurrencyFormatter(currency, symbol, locale)
