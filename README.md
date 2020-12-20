@@ -2,7 +2,7 @@
 
 A small Android library that dynamically reformats user input (from an `EditText`) for displaying currency values in any locale or currency. Java's `DecimalFormat` is used for formatting the numbers derived from user input.
 
-![Currency Formatter in use](/currency-formatter.gif)
+<img src="/currency-formatter.gif" height="700" />
 
 
 ## Requirements
