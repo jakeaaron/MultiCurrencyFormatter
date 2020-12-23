@@ -20,7 +20,7 @@ class CurrencyFormatter private constructor(
     override val currency: Currency,
     override val symbol: String,
     override val locale: Locale
-) : ICurrencyFormatter, IMultiCurrency {
+) : ICurrencyFormatter, CurrencyAttrs {
 
     private val currencyFormatter: DecimalFormat =
         NumberFormat.getCurrencyInstance(locale) as DecimalFormat
@@ -117,14 +117,14 @@ class CurrencyFormatter private constructor(
     }
 }
 
-interface ICurrencyFormatter : IMultiCurrency {
+interface ICurrencyFormatter : CurrencyAttrs {
     val underlyingDecimalFormat: DecimalFormat
     fun parse(currency: String): BigDecimal
     fun format(currency: String, decimals: Boolean): String
     fun format(currency: BigDecimal, decimals: Boolean): String
 }
 
-interface IMultiCurrency {
+interface CurrencyAttrs {
     val currency: Currency
     val symbol: String
     val locale: Locale

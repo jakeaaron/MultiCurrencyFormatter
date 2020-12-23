@@ -9,14 +9,14 @@ import com.jacoballenwood.formatter.ui.CurrencyTextWatcher
 import com.jacoballenwood.formatter.ui.ICurrencyTextWatcher
 import com.jacoballenwood.formatter.util.CurrencyFormatter
 import com.jacoballenwood.formatter.util.ICurrencyFormatter
-import com.jacoballenwood.formatter.util.IMultiCurrency
+import com.jacoballenwood.formatter.util.CurrencyAttrs
 import java.math.BigDecimal
 import java.util.*
 
 class MultiCurrencyFormatter private constructor(
     lifecycleOwner: LifecycleOwner,
     val currencyTextWatcher: ICurrencyTextWatcher
-) : IMultiCurrency by currencyTextWatcher.formatter {
+) : CurrencyAttrs by currencyTextWatcher.formatter {
 
     val textValue: String
         get() = currencyTextWatcher.amount
