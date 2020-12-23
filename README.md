@@ -32,7 +32,24 @@ dependencies {
 
 ## Configuration
 
-If the software is configurable, describe it in detail, either here or in other documentation to which you link.
+The MultiCurrencyFormatter allows configuration for the following fields/behaviors:
+
+1. Currency: Java Currency class used for formatting currency text values
+2. Currency symbol: Custom symbol to override the symbol associated with the Currency
+3. Locale: Locale used for formatting currency text values
+4. Resize text automatically
+5. Superscript the currency symbol
+
+The following code snippet shows how to configure each field/behavior:
+
+```
+MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
+    .setCurrency(Currency.getInstance(Locale.JAPAN))
+    .setLocale(Locale.US)
+    .setSymbol("💸") 
+    .setAutoResize(true)
+    .setSymbolSuperscript(true)
+```
 
 ## Usage
 
