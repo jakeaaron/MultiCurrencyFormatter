@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
             formatter = MultiCurrencyFormatter.newInstance(this, editText)
                 .setLocale(Locale.US) // set initial locale
                 .setSymbol("💸") // set custom symbol
+                .setAutoResize(true)
+                .setSymbolSuperscript(true)
         }
 
         findViewById<ChipGroup>(R.id.btnContainer)?.let { container ->

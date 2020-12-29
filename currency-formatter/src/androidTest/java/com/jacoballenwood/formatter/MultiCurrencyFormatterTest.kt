@@ -41,7 +41,7 @@ class MultiCurrencyFormatterTest {
         formatter.setAmount("$25.00")
         Assert.assertEquals("$25.00", formatter.textValue)
         formatter.setAmount("$50.00")
-        Assert.assertEquals(BigDecimal(50.00), formatter.numberValue)
+        Assert.assertEquals(BigDecimal("50.00"), formatter.numberValue)
     }
 
     @Test
