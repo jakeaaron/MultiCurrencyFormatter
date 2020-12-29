@@ -53,9 +53,15 @@ MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
 
 ## Usage
 
-Show users how to use the software.
-Be specific.
-Use appropriate formatting when showing code snippets.
+See the [sample project](/app/src/main/java/com/jacoballenwood/currency/MainActivity.kt) to see the `MultiCurrencyFormatter` in action. Feel free to run the app.
+
+The `MultiCurrencyFormatter` requires a `LifecycleOwner` and an `EditText` to create a new instance. This is all that is required to start formatting currency text.
+
+```
+MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
+```
+
+`MultiCurrencyFormatter` listens for the `LifecycleOwner#onDestroy` event to clear out its reference to the `EditText`. This means that the consumer doesn't need to worry about passing a view reference, nor manually clearing out the reference. When `MultiCurrencyFormatter` is instantiated, it registers the internal `CurrencyTextWatcher` with the `EditText` in order to listen to text input changes.
 
 ## How to test the software
 
