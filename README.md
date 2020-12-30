@@ -53,7 +53,7 @@ MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
 
 ## Usage
 
-See the [sample project](/app/src/main/java/com/jacoballenwood/currency/MainActivity.kt) to see the `MultiCurrencyFormatter` in action. Feel free to run the app.
+Run the [sample project](/app/src/main/java/com/jacoballenwood/currency/MainActivity.kt) to see the `MultiCurrencyFormatter` in action.
 
 The `MultiCurrencyFormatter` requires a `LifecycleOwner` and an `EditText` to create a new instance. This is all that is required to start formatting currency text.
 
@@ -61,7 +61,55 @@ The `MultiCurrencyFormatter` requires a `LifecycleOwner` and an `EditText` to cr
 MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
 ```
 
-`MultiCurrencyFormatter` listens for the `LifecycleOwner#onDestroy` event to clear out its reference to the `EditText`. This means that the consumer doesn't need to worry about passing a view reference, nor manually clearing out the reference. When `MultiCurrencyFormatter` is instantiated, it registers the internal `CurrencyTextWatcher` with the `EditText` in order to listen to text input changes.
+`MultiCurrencyFormatter` listens for the `LifecycleOwner#onDestroy` event to clear out its reference to the `EditText`. This means that the consumer doesn't need to worry about manually clearing out the view reference. When `MultiCurrencyFormatter` is instantiated, it registers the internal `CurrencyTextWatcher` with the `EditText` in order to listen to text input changes.
+
+By default, the `MultiCurrencyFormatter` uses the default locale associated with the device to parse and format values. The locale dictates the `Currency` value, which then dictates the currency symbol. This means that in most cases, changing the locale will end up doing the correct thing in relation to the `Currency` and symbol. However, there is additional functionality in case more granular usage is needed.
+
+#### Setting Formatter Attributes
+
+In order to change the `Currency`, `Symbol`, or `Locale` used by the formatter, use the corresponding methods on `MultiCurrencyFormatter` instance:
+
+```
+MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
+    .setLocale(Locale.CHINA)
+    .setSymbol("¥")
+    .setCurrency(Currency.getInstance(Locale.CHINA))
+```
+
+or
+
+```
+MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
+    .setCurrencyFormatter(
+        CurrencyFormatter.getInstance(
+            currency,
+            symbol,
+            locale
+        )
+    )
+```
+
+This is useful for updating the formatter in response to a user event (like selecting a new currency or locale from a menu/list, i.e. see [sample project](/app/src/main/java/com/jacoballenwood/currency/MainActivity.kt)).
+
+#### Reading and Writing Currency Values
+
+`MultiCurrencyFormatter.textValue` holds the formatted `String` information associated with the `EditText`, including the currency symbol. 
+
+`MultiCurrencyFormatter.numberValue` holds the `BigDecimal` value associated with the parsed `EditText.text` value.
+
+For example:
+
+```
+
+MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
+    .setLocale(Locale.US)
+    .setAmount("50.00)
+    
+MultiCurrencyFormatter.textValue // $50.00
+MultiCurrencyFormatter.numberValue // BigDecimal("50.00")
+
+```
+
 
 ## How to test the software
 
