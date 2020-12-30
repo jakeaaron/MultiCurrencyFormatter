@@ -116,19 +116,37 @@ MultiCurrencyFormatter.numberValue // BigDecimal("50.00")
 
 ## Advanced Usage
 
-In case you need to extend the `TextWatcher` in order to listen to text change events, you can extend `CurrencyTextWatcher` and pass it to `MultiCurrencyFormatter` when creating a new instance.
+If you need additional callbacks into the `EditText`'s `TextWatcher` use the `addTextChangeListener` method.
+
+For example:
 
 ```kotlin
 
+val editText = EditText(this)
+val formatter = CurrencyFormatter.getInstance(Locale.ITALY)
+val mcf = MultiCurrencyFormatter.newInstance(
+    this,
+    editText,
+    currencyFormatter = formatter
+)
+val customListener = object : TextWatcher {
+    override fun afterTextChanged(s: Editable?) {
+        // do something important
+    }
 
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+    }
+}
+mcf.addTextChangeListener(customListener)
 
 ```
 
 ## How to test the software
 
-Run the [tests](/currency-formatter/src/androidTest/java/com/jacoballenwood/formatter/) using an IDE like Intellij or Android Studio.
-
-See [how to run tests](https://developer.android.com/studio/test) from Android Developers documentation.
+Run the [tests](/currency-formatter/src/androidTest/java/com/jacoballenwood/formatter/) using an IDE like Intellij or Android Studio. Learn more[how to run tests](https://developer.android.com/studio/test).
 
 ## Getting help
 
