@@ -1,4 +1,4 @@
-# Multi-Currency Formatter
+# MultiCurrencyFormatter
 
 A small Android library that dynamically reformats user input (from an `EditText`) for displaying currency values in any locale or currency. Java's `DecimalFormat` is used for formatting the numbers derived from user input.
 
@@ -32,7 +32,7 @@ dependencies {
 
 ## Configuration
 
-The MultiCurrencyFormatter allows configuration for the following fields/behaviors:
+The `MultiCurrencyFormatter` allows configuration for the following fields/behaviors:
 
 1. Currency: Java Currency class used for formatting currency text values
 2. Currency symbol: Custom symbol to override the symbol associated with the Currency
@@ -42,7 +42,7 @@ The MultiCurrencyFormatter allows configuration for the following fields/behavio
 
 The following code snippet shows how to configure each field/behavior:
 
-```
+```kotlin
 MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
     .setCurrency(Currency.getInstance(Locale.JAPAN))
     .setLocale(Locale.US)
@@ -53,11 +53,13 @@ MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
 
 ## Usage
 
-Run the [sample project](/app/src/main/java/com/jacoballenwood/currency/MainActivity.kt) to see the `MultiCurrencyFormatter` in action.
+> Run the [sample project](/app/src/main/java/com/jacoballenwood/currency/MainActivity.kt) to see the `MultiCurrencyFormatter` in action.
+
+#### Basic Usage
 
 The `MultiCurrencyFormatter` requires a `LifecycleOwner` and an `EditText` to create a new instance. This is all that is required to start formatting currency text.
 
-```
+```kotlin
 MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
 ```
 
@@ -69,7 +71,7 @@ By default, the `MultiCurrencyFormatter` uses the default locale associated with
 
 In order to change the `Currency`, `Symbol`, or `Locale` used by the formatter, use the corresponding methods on `MultiCurrencyFormatter` instance:
 
-```
+```kotlin
 MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
     .setLocale(Locale.CHINA)
     .setSymbol("¥")
@@ -78,7 +80,7 @@ MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
 
 or
 
-```
+```kotlin
 MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
     .setCurrencyFormatter(
         CurrencyFormatter.getInstance(
@@ -97,9 +99,11 @@ This is useful for updating the formatter in response to a user event (like sele
 
 `MultiCurrencyFormatter.numberValue` holds the `BigDecimal` value associated with the parsed `EditText.text` value.
 
+`MultiCurrencyFormatter.setAmount` sets the text value.
+
 For example:
 
-```
+```kotlin
 
 MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
     .setLocale(Locale.US)
@@ -110,6 +114,15 @@ MultiCurrencyFormatter.numberValue // BigDecimal("50.00")
 
 ```
 
+## Advanced Usage
+
+In case you need to extend the `TextWatcher` in order to listen to text change events, you can extend `CurrencyTextWatcher` and pass it to `MultiCurrencyFormatter` when creating a new instance.
+
+```kotlin
+
+
+
+```
 
 ## How to test the software
 
@@ -121,19 +134,7 @@ Document any known significant shortcomings with the software.
 
 ## Getting help
 
-Instruct users how to get help with this software; this might include links to an issue tracker, wiki, mailing list, etc.
-
-**Example**
-
 If you have questions, concerns, bug reports, etc, please file an issue in this repository's Issue Tracker.
-
-## Getting involved
-
-This section should detail why people should get involved and describe key areas you are
-currently focusing on; e.g., trying to get feedback on features, fixing certain bugs, building
-important pieces, etc.
-
-General instructions on _how_ to contribute should be stated with a link to [CONTRIBUTING](CONTRIBUTING.md).
 
 
 ----
