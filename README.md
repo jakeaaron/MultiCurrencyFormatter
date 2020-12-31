@@ -146,7 +146,7 @@ mcf.addTextChangeListener(customListener)
 
 ## How to test the software
 
-Run the [tests](/currency-formatter/src/androidTest/java/com/jacoballenwood/formatter/) using an IDE like Intellij or Android Studio. Learn more[how to run tests](https://developer.android.com/studio/test).
+Run the [tests](/currency-formatter/src/androidTest/java/com/jacoballenwood/formatter/) using an IDE like Intellij or Android Studio. [Learn more](https://developer.android.com/studio/test).
 
 ## Getting help
 
@@ -163,6 +163,9 @@ If you have questions, concerns, bug reports, etc, please file an issue in this 
 
 ## Credits and references
 
-1. Projects that inspired you
-2. Related projects
-3. Books, papers, talks, or other sources that have meaningful impact or influence on this project
+1. [Cash App](https://cash.app/)
+2. [Stack Overflow Q/A](https://stackoverflow.com/questions/5107901/better-way-to-format-currency-input-edittext/8275680)
+3. [CurrencyEditText](https://github.com/BlacKCaT27/CurrencyEditText)
+4. [How to Format 30+ Currencies from Countries All Over the World](https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/)
+5. [Location Based Currency Formatting in Java](https://howtodoinjava.com/java/date-time/location-based-currency-formatting-in-java/)
+6. [Multi-currency support in Java](https://getaround.tech/multi-currency-java/)
