@@ -148,18 +148,15 @@ mcf.addTextChangeListener(customListener)
 
 Run the [tests](/currency-formatter/src/androidTest/java/com/jacoballenwood/formatter/) using an IDE like Intellij or Android Studio. [Learn more](https://developer.android.com/studio/test).
 
+
 ## Getting help
 
 If you have questions, concerns, bug reports, etc, please file an issue in this repository's Issue Tracker.
 
 
-----
-
 ## Open source licensing info
 [LICENSE](LICENSE)
 
-
-----
 
 ## Credits and references
 
