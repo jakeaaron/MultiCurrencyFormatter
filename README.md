@@ -63,7 +63,7 @@ The `MultiCurrencyFormatter` requires a `LifecycleOwner` and an `EditText` to cr
 MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
 ```
 
-`MultiCurrencyFormatter` listens for the `LifecycleOwner#onDestroy` event to clear out its reference to the `EditText`. This means that the consumer doesn't need to worry about manually clearing out the view reference. When `MultiCurrencyFormatter` is instantiated, it registers the internal `CurrencyTextWatcher` with the `EditText` in order to listen to text input changes.
+`MultiCurrencyFormatter` listens for the `LifecycleOwner#onDestroy` event to clear out its reference to the `EditText` to avoid leaking its `context`. This means that the consumer doesn't need to worry about manually clearing out the view reference. When `MultiCurrencyFormatter` is instantiated, it registers the internal `CurrencyTextWatcher` with the `EditText` in order to listen to text input changes.
 
 By default, the `MultiCurrencyFormatter` uses the default locale associated with the device to parse and format values. The locale dictates the `Currency` value, which then dictates the currency symbol. This means that in most cases, changing the locale will end up doing the correct thing in relation to the `Currency` and symbol. However, there is additional functionality in case more granular usage is needed.
 
