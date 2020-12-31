@@ -12,7 +12,7 @@ import com.jacoballenwood.formatter.util.StringUtil.indexOfLastDigit
 import java.lang.ref.WeakReference
 import java.math.BigDecimal
 
-open class CurrencyTextWatcher(
+class CurrencyTextWatcher(
     editText: EditText,
     currencyFormatter: ICurrencyFormatter
 ) : ICurrencyTextWatcher, TextWatcher {
@@ -22,6 +22,10 @@ open class CurrencyTextWatcher(
         get() = _editText.get()!!
     override val editText: EditText?
         get() = _editText.get()
+
+    private val _listeners = mutableListOf<TextWatcher>()
+    override val listeners: List<TextWatcher>
+        get() = _listeners
 
     private var indexOfDecimalPoint = -1
     private var currentIndexOfCents = -1
@@ -88,6 +92,7 @@ open class CurrencyTextWatcher(
     }
 
     override fun afterTextChanged(s: Editable?) {
+        notifyListeners { it.afterTextChanged(s) }
         requireEditText.removeTextChangedListener(this)
         amount = requireEditText.text.toString()
         updateSelection()
@@ -97,6 +102,7 @@ open class CurrencyTextWatcher(
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        notifyListeners { it.onTextChanged(s, start, before, count) }
         isDeleting = count < 1
         indexOfDecimalPoint =
             (s?.indexOf(formatter.underlyingDecimalFormat.decimalFormatSymbols.decimalSeparator)
@@ -114,11 +120,13 @@ open class CurrencyTextWatcher(
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        notifyListeners { it.beforeTextChanged(s, start, count, after) }
     }
 
     override fun destroy() {
         _editText.get()?.removeTextChangedListener(this)
         _editText.clear()
+        _listeners.clear()
     }
 
     private fun updateHint() {
@@ -138,9 +146,20 @@ open class CurrencyTextWatcher(
             this.indexOf(formatter.symbol.last()) + 1
         )
 
+    override fun addTextChangeListener(watcher: TextWatcher) {
+        _listeners.add(watcher)
+    }
+
+    override fun removeTextChangeListener(watcher: TextWatcher) {
+        _listeners.remove(watcher)
+    }
+
+    private fun notifyListeners(block: (watcher: TextWatcher) -> Unit) {
+        _listeners.forEach(block)
+    }
 }
 
-interface ICurrencyTextWatcher : TextWatcher {
+interface ICurrencyTextWatcher : TextWatcher, TextChangeListener {
     val editText: EditText?
     val numberValue: BigDecimal
     var amount: String
@@ -148,4 +167,10 @@ interface ICurrencyTextWatcher : TextWatcher {
     var withAutoResize: Boolean
     var formatter: ICurrencyFormatter
     fun destroy()
+}
+
+interface TextChangeListener {
+    val listeners: List<TextWatcher>
+    fun addTextChangeListener(watcher: TextWatcher)
+    fun removeTextChangeListener(watcher: TextWatcher)
 }

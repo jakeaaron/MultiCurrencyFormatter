@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import com.jacoballenwood.formatter.ui.CurrencyTextWatcher
 import com.jacoballenwood.formatter.ui.ICurrencyTextWatcher
+import com.jacoballenwood.formatter.ui.TextChangeListener
 import com.jacoballenwood.formatter.util.CurrencyFormatter
 import com.jacoballenwood.formatter.util.ICurrencyFormatter
 import com.jacoballenwood.formatter.util.CurrencyAttrs
@@ -16,7 +17,7 @@ import java.util.*
 class MultiCurrencyFormatter private constructor(
     lifecycleOwner: LifecycleOwner,
     val currencyTextWatcher: ICurrencyTextWatcher
-) : CurrencyAttrs by currencyTextWatcher.formatter {
+) : CurrencyAttrs by currencyTextWatcher.formatter, TextChangeListener by currencyTextWatcher {
 
     val textValue: String
         get() = currencyTextWatcher.amount
@@ -138,16 +139,14 @@ class MultiCurrencyFormatter private constructor(
         fun newInstance(
             lifecycleOwner: LifecycleOwner,
             editText: EditText,
-            currencyFormatter: ICurrencyFormatter? = CurrencyFormatter.getInstance(),
-            currencyTextWatcher: ICurrencyTextWatcher? = CurrencyTextWatcher(
+            currencyFormatter: ICurrencyFormatter? = CurrencyFormatter.getInstance()
+        ): MultiCurrencyFormatter =
+            MultiCurrencyFormatter(lifecycleOwner, CurrencyTextWatcher(
                 editText,
                 currencyFormatter!!
-            )
-        ): MultiCurrencyFormatter =
-            MultiCurrencyFormatter(lifecycleOwner, currencyTextWatcher!!.apply {
-                formatter = currencyFormatter!!
+            ).apply {
+                formatter = currencyFormatter
             })
-
     }
 
 }
