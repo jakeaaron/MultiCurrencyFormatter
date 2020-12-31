@@ -107,7 +107,7 @@ For example:
 
 MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
     .setLocale(Locale.US)
-    .setAmount("50.00)
+    .setAmount("50.00")
     
 MultiCurrencyFormatter.textValue // $50.00
 MultiCurrencyFormatter.numberValue // BigDecimal("50.00")
