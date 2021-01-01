@@ -1,21 +1,21 @@
-package com.jacoballenwood.formatter.ui
+package com.jacoballenwood.formatter.main.impl
 
 import android.text.Editable
 import android.text.Spannable
 import android.text.TextWatcher
 import android.widget.EditText
-import androidx.core.text.trimmedLength
 import com.jacoballenwood.formatter.ext.fitText
 import com.jacoballenwood.formatter.ext.withSuperscript
-import com.jacoballenwood.formatter.util.ICurrencyFormatter
+import com.jacoballenwood.formatter.main.CurrencyFormatter
+import com.jacoballenwood.formatter.main.CurrencyTextWatcher
 import com.jacoballenwood.formatter.util.StringUtil.indexOfLastDigit
 import java.lang.ref.WeakReference
 import java.math.BigDecimal
 
-class CurrencyTextWatcher(
+class CurrencyTextWatcherImpl(
     editText: EditText,
-    currencyFormatter: ICurrencyFormatter
-) : ICurrencyTextWatcher, TextWatcher {
+    currencyFormatter: CurrencyFormatter
+) : CurrencyTextWatcher {
 
     private var _editText = WeakReference(editText)
     private val requireEditText: EditText
@@ -36,7 +36,7 @@ class CurrencyTextWatcher(
     override val numberValue: BigDecimal
         get() = currency
 
-    override var formatter: ICurrencyFormatter = currencyFormatter
+    override var formatter: CurrencyFormatter = currencyFormatter
         set(value) {
             field = value
             updateHint()
@@ -50,7 +50,7 @@ class CurrencyTextWatcher(
             useDecimals =
                 value.contains(formatter.underlyingDecimalFormat.decimalFormatSymbols.decimalSeparator)
             val formatted = formatter.run {
-                this@CurrencyTextWatcher.currency = parse(value)
+                this@CurrencyTextWatcherImpl.currency = parse(value)
                 format(value, useDecimals).run {
                     if (withSymbolSuperscript)
                         withSymbolSuperscript()
@@ -157,20 +157,4 @@ class CurrencyTextWatcher(
     private fun notifyListeners(block: (watcher: TextWatcher) -> Unit) {
         _listeners.forEach(block)
     }
-}
-
-interface ICurrencyTextWatcher : TextWatcher, TextChangeListener {
-    val editText: EditText?
-    val numberValue: BigDecimal
-    var amount: String
-    var withSymbolSuperscript: Boolean
-    var withAutoResize: Boolean
-    var formatter: ICurrencyFormatter
-    fun destroy()
-}
-
-interface TextChangeListener {
-    val listeners: List<TextWatcher>
-    fun addTextChangeListener(watcher: TextWatcher)
-    fun removeTextChangeListener(watcher: TextWatcher)
 }

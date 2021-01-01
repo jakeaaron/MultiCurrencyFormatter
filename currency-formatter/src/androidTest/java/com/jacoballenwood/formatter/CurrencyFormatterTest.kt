@@ -1,6 +1,6 @@
 package com.jacoballenwood.formatter
 
-import com.jacoballenwood.formatter.util.CurrencyFormatter
+import com.jacoballenwood.formatter.main.impl.CurrencyFormatterImpl
 import java.util.Currency
 import java.util.Locale
 import org.junit.Assert.assertEquals
@@ -26,7 +26,7 @@ class CurrencyFormatterTest {
         val locale = findLocale("en", "US")
         val currency = Currency.getInstance(locale)
         val symbol = "$"
-        val formatter = CurrencyFormatter.getInstance(currency, symbol, locale)
+        val formatter = CurrencyFormatterImpl.getInstance(currency, symbol, locale)
 
         var formatted = formatter.format("USD$2,000.45", true)
         assertEquals("decimal format was incorrect", "${symbol}2,000.45", formatted)
@@ -46,7 +46,7 @@ class CurrencyFormatterTest {
         val locale = findLocale("pt", "BR")
         val currency = Currency.getInstance(locale)
         val symbol = "R$"
-        val formatter = CurrencyFormatter.getInstance(currency, symbol, locale)
+        val formatter = CurrencyFormatterImpl.getInstance(currency, symbol, locale)
 
         var formatted = formatter.format(BigDecimal(1234.56), true)
         assertEquals("decimal format was incorrect", "$symbol${NON_BREAKING_SPACE}1.234,56", formatted)
@@ -63,7 +63,7 @@ class CurrencyFormatterTest {
         val locale = findLocale("zh", "TW")
         val currency = Currency.getInstance(locale)
         val symbol = "¥"
-        val formatter = CurrencyFormatter.getInstance(currency, symbol, locale)
+        val formatter = CurrencyFormatterImpl.getInstance(currency, symbol, locale)
 
         var formatted = formatter.format(BigDecimal(1234.56), true)
         assertEquals("decimal format was incorrect", "${symbol}1,234.56", formatted)
@@ -77,7 +77,7 @@ class CurrencyFormatterTest {
         val locale = findLocale("fr", "FR")
         val currency = Currency.getInstance(locale)
         val symbol = "€"
-        val formatter = CurrencyFormatter.getInstance(currency, symbol, locale)
+        val formatter = CurrencyFormatterImpl.getInstance(currency, symbol, locale)
 
         var formatted = formatter.format(BigDecimal(1234.56), true)
         assertEquals("decimal format was incorrect", "1${NON_BREAKING_SPACE_2}234,56${NON_BREAKING_SPACE}${symbol}", formatted)

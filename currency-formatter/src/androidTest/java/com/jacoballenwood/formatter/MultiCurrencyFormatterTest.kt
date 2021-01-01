@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
-import com.jacoballenwood.formatter.ui.CurrencyTextWatcher
+import com.jacoballenwood.formatter.main.impl.CurrencyTextWatcherImpl
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -85,9 +85,9 @@ class MultiCurrencyFormatterTest {
     fun edittext_reference_cleared_on_lifecycle_destroy() {
         val (scene, activity) = setUpActivity()
         val formatter = setUpFormatter(activity)
-        Assert.assertNotNull((formatter.currencyTextWatcher as CurrencyTextWatcher).editText)
+        Assert.assertNotNull((formatter.currencyTextWatcher as CurrencyTextWatcherImpl).editText)
         scene.moveToState(Lifecycle.State.DESTROYED)
-        Assert.assertNull((formatter.currencyTextWatcher as CurrencyTextWatcher).editText)
+        Assert.assertNull((formatter.currencyTextWatcher as CurrencyTextWatcherImpl).editText)
         scene.close()
     }
 

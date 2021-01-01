@@ -4,8 +4,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import androidx.test.platform.app.InstrumentationRegistry
-import com.jacoballenwood.formatter.ui.CurrencyTextWatcher
-import com.jacoballenwood.formatter.util.CurrencyFormatter
+import com.jacoballenwood.formatter.main.impl.CurrencyTextWatcherImpl
+import com.jacoballenwood.formatter.main.impl.CurrencyFormatterImpl
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import java.util.Currency
@@ -24,9 +24,9 @@ class CurrencyTextWatcherTest {
         val currency = Currency.getInstance(usLocale)
         val symbol = "$"
         val currencyFormatter =
-            CurrencyFormatter.getInstance(locale = usLocale, currency = currency, symbol = symbol)
+            CurrencyFormatterImpl.getInstance(locale = usLocale, currency = currency, symbol = symbol)
         val editText = EditText(context)
-        CurrencyTextWatcher(editText, currencyFormatter)
+        CurrencyTextWatcherImpl(editText, currencyFormatter)
 
         editText.setText("25.00")
         assertEquals("format was incorrect", editText.text.toString(), "$25.00")
@@ -42,9 +42,9 @@ class CurrencyTextWatcherTest {
     fun text_listeners_are_notified() {
         val context = InstrumentationRegistry.getInstrumentation().context
         val usLocale = Locale("en", "US")
-        val currencyFormatter = CurrencyFormatter.getInstance(locale = usLocale)
+        val currencyFormatter = CurrencyFormatterImpl.getInstance(locale = usLocale)
         val editText = EditText(context)
-        val watcher = CurrencyTextWatcher(editText, currencyFormatter)
+        val watcher = CurrencyTextWatcherImpl(editText, currencyFormatter)
 
         var customListenerNotified = 0
         val customListener = object : TextWatcher {
@@ -79,9 +79,9 @@ class CurrencyTextWatcherTest {
     fun destroy_cleans_up_view_and_listeners() {
         val context = InstrumentationRegistry.getInstrumentation().context
         val usLocale = Locale("en", "US")
-        val currencyFormatter = CurrencyFormatter.getInstance(locale = usLocale)
+        val currencyFormatter = CurrencyFormatterImpl.getInstance(locale = usLocale)
         val editText = EditText(context)
-        val watcher = CurrencyTextWatcher(editText, currencyFormatter)
+        val watcher = CurrencyTextWatcherImpl(editText, currencyFormatter)
 
         watcher.addTextChangeListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {

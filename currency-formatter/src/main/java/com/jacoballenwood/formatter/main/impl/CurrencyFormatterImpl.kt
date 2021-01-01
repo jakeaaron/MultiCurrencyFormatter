@@ -1,5 +1,7 @@
-package com.jacoballenwood.formatter.util
+package com.jacoballenwood.formatter.main.impl
 
+import com.jacoballenwood.formatter.main.CurrencyAttrs
+import com.jacoballenwood.formatter.main.CurrencyFormatter
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -16,11 +18,11 @@ import java.util.*
  * @see NumberFormat.setCurrency
  * @see java.text.DecimalFormatSymbols
  */
-class CurrencyFormatter private constructor(
+class CurrencyFormatterImpl internal constructor(
     override val currency: Currency,
     override val symbol: String,
     override val locale: Locale
-) : ICurrencyFormatter, CurrencyAttrs {
+) : CurrencyFormatter, CurrencyAttrs {
 
     private val currencyFormatter: DecimalFormat =
         NumberFormat.getCurrencyInstance(locale) as DecimalFormat
@@ -33,7 +35,7 @@ class CurrencyFormatter private constructor(
         val symbols = currencyFormatter.decimalFormatSymbols
         symbols.currencySymbol = symbol
         currencyFormatter.apply {
-            this.currency = this@CurrencyFormatter.currency
+            this.currency = this@CurrencyFormatterImpl.currency
             this.decimalFormatSymbols = symbols
         }
         roundedCurrencyFormatter = (currencyFormatter.clone() as DecimalFormat).apply {
@@ -89,43 +91,7 @@ class CurrencyFormatter private constructor(
         currencyFormatter.format(currency)
 
     companion object {
-
         private val cleaningRegex = "[^\\d+.,]".toRegex()
-
-        private var instance: CurrencyFormatter? = null
-
-        /**
-         *
-         */
-        fun getInstance(locale: Locale = Locale.getDefault()): CurrencyFormatter {
-            val currency = try {
-                Currency.getInstance(locale)
-            } catch (ignore: Exception) {
-                Currency.getInstance(Locale("en", "US"))
-            }
-            return getInstance(currency, currency.symbol, locale)
-        }
-
-        /**
-         *
-         */
-        fun getInstance(currency: Currency, symbol: String, locale: Locale): CurrencyFormatter {
-            if (instance?.currency != currency || instance?.symbol != symbol || instance?.locale != locale)
-                instance = CurrencyFormatter(currency, symbol, locale)
-            return instance!!
-        }
     }
 }
 
-interface ICurrencyFormatter : CurrencyAttrs {
-    val underlyingDecimalFormat: DecimalFormat
-    fun parse(currency: String): BigDecimal
-    fun format(currency: String, decimals: Boolean): String
-    fun format(currency: BigDecimal, decimals: Boolean): String
-}
-
-interface CurrencyAttrs {
-    val currency: Currency
-    val symbol: String
-    val locale: Locale
-}

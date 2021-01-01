@@ -5,18 +5,18 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
-import com.jacoballenwood.formatter.ui.CurrencyTextWatcher
-import com.jacoballenwood.formatter.ui.ICurrencyTextWatcher
-import com.jacoballenwood.formatter.ui.TextChangeListener
-import com.jacoballenwood.formatter.util.CurrencyFormatter
-import com.jacoballenwood.formatter.util.ICurrencyFormatter
-import com.jacoballenwood.formatter.util.CurrencyAttrs
+import com.jacoballenwood.formatter.main.CurrencyAttrs
+import com.jacoballenwood.formatter.main.CurrencyFormatter
+import com.jacoballenwood.formatter.main.CurrencyTextWatcher
+import com.jacoballenwood.formatter.main.TextChangeListener
+import com.jacoballenwood.formatter.main.impl.CurrencyFormatterImpl
+import com.jacoballenwood.formatter.main.impl.CurrencyTextWatcherImpl
 import java.math.BigDecimal
 import java.util.*
 
 class MultiCurrencyFormatter private constructor(
     lifecycleOwner: LifecycleOwner,
-    val currencyTextWatcher: ICurrencyTextWatcher
+    val currencyTextWatcher: CurrencyTextWatcher
 ) : CurrencyAttrs by currencyTextWatcher.formatter, TextChangeListener by currencyTextWatcher {
 
     val textValue: String
@@ -41,13 +41,13 @@ class MultiCurrencyFormatter private constructor(
     }
 
     /**
-     * Sets the locale used by the [CurrencyFormatter] for parsing and formatting currency values
+     * Sets the locale used by the [CurrencyFormatterImpl] for parsing and formatting currency values
      *
-     * @param locale the [Locale] that [CurrencyFormatter] should use to parse and format currency values
+     * @param locale the [Locale] that [CurrencyFormatterImpl] should use to parse and format currency values
      *
      * @return the current [MultiCurrencyFormatter] (useful for chaining different method calls together)
      *
-     * @see CurrencyFormatter
+     * @see CurrencyFormatterImpl
      * @see Locale
      */
     fun setLocale(locale: Locale): MultiCurrencyFormatter {
@@ -62,15 +62,15 @@ class MultiCurrencyFormatter private constructor(
     }
 
     /**
-     * Sets the symbol used by the [CurrencyFormatter] for formatting currency values
+     * Sets the symbol used by the [CurrencyFormatterImpl] for formatting currency values
      *
      * By default, the symbol will come from the [Currency] value associated with this [MultiCurrencyFormatter]
      *
-     * @param symbol the symbol that [CurrencyFormatter] should use to format currency values
+     * @param symbol the symbol that [CurrencyFormatterImpl] should use to format currency values
      *
      * @return the current [MultiCurrencyFormatter] (useful for chaining different method calls together)
      *
-     * @see CurrencyFormatter
+     * @see CurrencyFormatterImpl
      */
     fun setSymbol(symbol: String): MultiCurrencyFormatter {
         setCurrencyFormatter(
@@ -84,15 +84,15 @@ class MultiCurrencyFormatter private constructor(
     }
 
     /**
-     * Sets the currency used by the [CurrencyFormatter] for formatting currency values
+     * Sets the currency used by the [CurrencyFormatterImpl] for formatting currency values
      *
      * By default, the currency will come from the [Locale] value associated with this [MultiCurrencyFormatter]
      *
-     * @param currency the [Currency] that [CurrencyFormatter] should use to parse and format currency values
+     * @param currency the [Currency] that [CurrencyFormatterImpl] should use to parse and format currency values
      *
      * @return the current [MultiCurrencyFormatter] (useful for chaining different method calls together)
      *
-     * @see CurrencyFormatter
+     * @see CurrencyFormatterImpl
      * @see Currency
      */
     fun setCurrency(currency: Currency): MultiCurrencyFormatter {
@@ -107,15 +107,15 @@ class MultiCurrencyFormatter private constructor(
     }
 
     /**
-     * Sets the [CurrencyFormatter] associated with this [MultiCurrencyFormatter]
+     * Sets the [CurrencyFormatterImpl] associated with this [MultiCurrencyFormatter]
      *
      * @param currencyFormatter the formatter to parse and format text with
      *
      * @return the current [MultiCurrencyFormatter] (useful for chaining different method calls together)
      *
-     * @see CurrencyFormatter
+     * @see CurrencyFormatterImpl
      */
-    fun setCurrencyFormatter(currencyFormatter: ICurrencyFormatter): MultiCurrencyFormatter {
+    fun setCurrencyFormatter(currencyFormatter: CurrencyFormatter): MultiCurrencyFormatter {
         currencyTextWatcher.formatter = currencyFormatter
         return this
     }
@@ -139,9 +139,9 @@ class MultiCurrencyFormatter private constructor(
         fun newInstance(
             lifecycleOwner: LifecycleOwner,
             editText: EditText,
-            currencyFormatter: ICurrencyFormatter? = CurrencyFormatter.getInstance()
+            currencyFormatter: CurrencyFormatter? = CurrencyFormatter.getInstance()
         ): MultiCurrencyFormatter =
-            MultiCurrencyFormatter(lifecycleOwner, CurrencyTextWatcher(
+            MultiCurrencyFormatter(lifecycleOwner, CurrencyTextWatcherImpl(
                 editText,
                 currencyFormatter!!
             ).apply {
