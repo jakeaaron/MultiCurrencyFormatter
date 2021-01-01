@@ -142,9 +142,11 @@ val customListener = object : TextWatcher {
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
     }
 }
-multiCurrencyFormatter.addTextChangeListener(customListener)
+multiCurrencyFormatter.addListener(customListener)
 
 ```
+
+You may use the `removeListener` call to remove the listener, however, all listeners will get cleared on the `LifecycleOwner#onDestroy` event. 
 
 #### Underlying `DecimalFormat`
 
