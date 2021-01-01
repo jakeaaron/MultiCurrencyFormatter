@@ -144,6 +144,15 @@ mcf.addTextChangeListener(customListener)
 
 ```
 
+### Underlying `DecimalFormat`
+
+If you need access to the underlying `DecimalFormat` instance, it can be accessed from the `CurrencyTextWatcher` instance:
+
+```kotlin
+val multiCurrencyFormatter = MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
+val decimalFormat = multiCurrencyFormatter.currencyTextWatcher.formatter.underlyingDecimalFormat
+```
+
 ## How to test the software
 
 Run the [tests](/currency-formatter/src/androidTest/java/com/jacoballenwood/formatter/) using an IDE like Intellij or Android Studio. [Learn more](https://developer.android.com/studio/test).
