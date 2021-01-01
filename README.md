@@ -15,10 +15,9 @@ Add Jitpack to your project build.gralde file
  
 ```
 allprojects {
-  repositories {
-    ...
-    maven { url 'https://jitpack.io' }
-  }
+    repositories {
+      maven { url 'https://jitpack.io' }
+    }
 }
 ```
 
@@ -26,7 +25,7 @@ Then add this dependency to your app build.gradle file.
 
 ```
 dependencies {
-  implementation 'com.github.adawoud:BottomSheetTimeRangePicker:latest-release'
+    implementation 'com.github.jakeaaron:MultiCurrencyFormatter:1.0.0-alpha.1'
 }
 ```
 
