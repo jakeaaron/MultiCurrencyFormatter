@@ -11,7 +11,6 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.snackbar.Snackbar
 import com.jacoballenwood.formatter.MultiCurrencyFormatter
 import com.jacoballenwood.formatter.main.CurrencyFormatter
-import com.jacoballenwood.formatter.main.impl.CurrencyFormatterImpl
 import java.math.BigDecimal
 import java.util.*
 
