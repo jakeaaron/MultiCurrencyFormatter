@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/jakeaaron/MultiCurrencyFormatter.svg)](https://jitpack.io/#jakeaaron/MultiCurrencyFormatter)
+
 # MultiCurrencyFormatter
 
 A small Android library that dynamically reformats user input (from an `EditText`) for displaying currency values in any locale or currency. Java's `DecimalFormat` is used for formatting the numbers derived from user input.
