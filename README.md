@@ -55,7 +55,7 @@ MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
 
 > Run the [sample project](/app/src/main/java/com/jacoballenwood/currency/MainActivity.kt) to see the `MultiCurrencyFormatter` in action.
 
-### Basic Usage
+#### Basic Usage
 
 The `MultiCurrencyFormatter` requires a `LifecycleOwner` and an `EditText` to create a new instance. This is all that is required to start formatting currency text.
 
@@ -67,7 +67,7 @@ MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
 
 By default, the `MultiCurrencyFormatter` uses the default locale associated with the device to parse and format values. The locale dictates the `Currency` value, which then dictates the currency symbol. This means that in most cases, changing the locale will end up doing the correct thing in relation to the `Currency` and symbol. However, there is additional functionality in case more granular control is needed.
 
-### Setting Formatter Attributes
+#### Setting Formatter Attributes
 
 In order to change the `Currency`, `Symbol`, or `Locale` used by the formatter, use the corresponding methods on `MultiCurrencyFormatter` instance:
 
@@ -93,7 +93,7 @@ MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
 
 This is useful for updating the formatter in response to a user event (like selecting a new currency or locale from a menu/list, i.e. see [sample project](/app/src/main/java/com/jacoballenwood/currency/MainActivity.kt)).
 
-### Reading and Writing Currency Values
+#### Reading and Writing Currency Values
 
 `MultiCurrencyFormatter.textValue` holds the formatted `String` information associated with the `EditText`, including the currency symbol. 
 
@@ -116,6 +116,8 @@ MultiCurrencyFormatter.numberValue // BigDecimal("50.00")
 
 ## Advanced Usage
 
+#### Custom `TextWatcher`
+
 If you need additional callbacks into the `EditText`'s `TextWatcher` use the `addTextChangeListener` method.
 
 For example:
@@ -124,7 +126,7 @@ For example:
 
 val editText = EditText(this)
 val formatter = CurrencyFormatter.getInstance(Locale.ITALY)
-val mcf = MultiCurrencyFormatter.newInstance(
+val multiCurrencyFormatter = MultiCurrencyFormatter.newInstance(
     this,
     editText,
     currencyFormatter = formatter
@@ -140,11 +142,11 @@ val customListener = object : TextWatcher {
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
     }
 }
-mcf.addTextChangeListener(customListener)
+multiCurrencyFormatter.addTextChangeListener(customListener)
 
 ```
 
-### Underlying `DecimalFormat`
+#### Underlying `DecimalFormat`
 
 If you need access to the underlying `DecimalFormat` instance, it can be accessed from the `CurrencyTextWatcher` instance:
 
