@@ -16,7 +16,7 @@ Add Jitpack to your project build.gralde file
 ```
 allprojects {
     repositories {
-      maven { url 'https://jitpack.io' }
+        maven { url 'https://jitpack.io' }
     }
 }
 ```
