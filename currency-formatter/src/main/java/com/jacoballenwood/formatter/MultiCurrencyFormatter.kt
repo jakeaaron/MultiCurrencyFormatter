@@ -10,7 +10,6 @@ import com.jacoballenwood.formatter.main.CurrencyFormatter
 import com.jacoballenwood.formatter.main.CurrencyTextWatcher
 import com.jacoballenwood.formatter.main.TextChangeListener
 import com.jacoballenwood.formatter.main.impl.CurrencyFormatterImpl
-import com.jacoballenwood.formatter.main.impl.CurrencyTextWatcherImpl
 import java.math.BigDecimal
 import java.util.*
 
@@ -140,13 +139,15 @@ class MultiCurrencyFormatter private constructor(
             lifecycleOwner: LifecycleOwner,
             editText: EditText,
             currencyFormatter: CurrencyFormatter? = CurrencyFormatter.getInstance()
-        ): MultiCurrencyFormatter =
-            MultiCurrencyFormatter(lifecycleOwner, CurrencyTextWatcherImpl(
+        ): MultiCurrencyFormatter = MultiCurrencyFormatter(
+            lifecycleOwner,
+            CurrencyTextWatcher.newInstance(
                 editText,
                 currencyFormatter!!
             ).apply {
                 formatter = currencyFormatter
-            })
+            }
+        )
     }
 
 }

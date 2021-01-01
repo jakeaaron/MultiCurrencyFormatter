@@ -85,9 +85,9 @@ class MultiCurrencyFormatterTest {
     fun edittext_reference_cleared_on_lifecycle_destroy() {
         val (scene, activity) = setUpActivity()
         val formatter = setUpFormatter(activity)
-        Assert.assertNotNull((formatter.currencyTextWatcher as CurrencyTextWatcherImpl).editText)
+        Assert.assertNotNull(formatter.currencyTextWatcher.editText)
         scene.moveToState(Lifecycle.State.DESTROYED)
-        Assert.assertNull((formatter.currencyTextWatcher as CurrencyTextWatcherImpl).editText)
+        Assert.assertNull(formatter.currencyTextWatcher.editText)
         scene.close()
     }
 

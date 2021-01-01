@@ -6,26 +6,22 @@ import android.text.TextWatcher
 import android.widget.EditText
 import com.jacoballenwood.formatter.ext.fitText
 import com.jacoballenwood.formatter.ext.withSuperscript
-import com.jacoballenwood.formatter.main.CurrencyFormatter
-import com.jacoballenwood.formatter.main.CurrencyTextWatcher
+import com.jacoballenwood.formatter.main.*
 import com.jacoballenwood.formatter.util.StringUtil.indexOfLastDigit
 import java.lang.ref.WeakReference
 import java.math.BigDecimal
 
-class CurrencyTextWatcherImpl(
+class CurrencyTextWatcherImpl internal constructor(
     editText: EditText,
-    currencyFormatter: CurrencyFormatter
-) : CurrencyTextWatcher {
+    currencyFormatter: CurrencyFormatter,
+    listener: Listeners<TextWatcher>
+) : CurrencyTextWatcher, Listeners<TextWatcher> by listener {
 
     private var _editText = WeakReference(editText)
     private val requireEditText: EditText
         get() = _editText.get()!!
     override val editText: EditText?
         get() = _editText.get()
-
-    private val _listeners = mutableListOf<TextWatcher>()
-    override val listeners: List<TextWatcher>
-        get() = _listeners
 
     private var indexOfDecimalPoint = -1
     private var currentIndexOfCents = -1
@@ -92,7 +88,7 @@ class CurrencyTextWatcherImpl(
     }
 
     override fun afterTextChanged(s: Editable?) {
-        notifyListeners { it.afterTextChanged(s) }
+        notify { it.afterTextChanged(s) }
         requireEditText.removeTextChangedListener(this)
         amount = requireEditText.text.toString()
         updateSelection()
@@ -102,7 +98,7 @@ class CurrencyTextWatcherImpl(
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        notifyListeners { it.onTextChanged(s, start, before, count) }
+        notify { it.onTextChanged(s, start, before, count) }
         isDeleting = count < 1
         indexOfDecimalPoint =
             (s?.indexOf(formatter.underlyingDecimalFormat.decimalFormatSymbols.decimalSeparator)
@@ -120,13 +116,13 @@ class CurrencyTextWatcherImpl(
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        notifyListeners { it.beforeTextChanged(s, start, count, after) }
+        notify { it.beforeTextChanged(s, start, count, after) }
     }
 
     override fun destroy() {
         _editText.get()?.removeTextChangedListener(this)
         _editText.clear()
-        _listeners.clear()
+        clear()
     }
 
     private fun updateHint() {
@@ -145,16 +141,4 @@ class CurrencyTextWatcherImpl(
             this.indexOf(formatter.symbol.first()),
             this.indexOf(formatter.symbol.last()) + 1
         )
-
-    override fun addTextChangeListener(watcher: TextWatcher) {
-        _listeners.add(watcher)
-    }
-
-    override fun removeTextChangeListener(watcher: TextWatcher) {
-        _listeners.remove(watcher)
-    }
-
-    private fun notifyListeners(block: (watcher: TextWatcher) -> Unit) {
-        _listeners.forEach(block)
-    }
 }
