@@ -10,6 +10,7 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.jacoballenwood.formatter.MultiCurrencyFormatter
+import com.jacoballenwood.formatter.main.CurrencyFormatter
 import com.jacoballenwood.formatter.main.impl.CurrencyFormatterImpl
 import java.math.BigDecimal
 import java.util.*
@@ -86,11 +87,11 @@ class MainActivity : AppCompatActivity() {
      * 3. formatter.setCurrencyFormatter(CurrencyFormatter.getInstance(currency, symbol, locale))
      *      will set a new formatter with all new values
      *
-     * @see CurrencyFormatterImpl.getInstance(locale)
+     * @see CurrencyFormatter.getInstance(locale)
      */
     private fun changeLocale(locale: Locale) {
         formatter?.setAmount("0")
-        formatter?.setCurrencyFormatter(CurrencyFormatterImpl.getInstance(locale))
+        formatter?.setCurrencyFormatter(CurrencyFormatter.getInstance(locale))
     }
 
     override fun onDestroy() {
