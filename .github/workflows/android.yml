@@ -40,3 +40,7 @@ jobs:
         with:
           name: reports
           path: currency-formatter/build/reports
+            
+      - name: jacoco-badge-generator
+        uses: cicirello/jacoco-badge-generator@v1.0.0
+
