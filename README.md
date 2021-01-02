@@ -1,11 +1,5 @@
 [![](https://jitpack.io/v/jakeaaron/MultiCurrencyFormatter.svg)](https://jitpack.io/#jakeaaron/MultiCurrencyFormatter)
 
-[![](https://jitci.com/gh/jakeaaron/MultiCurrencyFormatter/svg)](https://jitci.com/gh/jakeaaron/MultiCurrencyFormatter)
-
-![LINE](http://line.coverage.link)
-![BRANCH](http://branch.coverage.link)
-![COMPLEXITY](http://complexity.link)
-
 
 # MultiCurrencyFormatter
 
