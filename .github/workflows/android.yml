@@ -34,9 +34,10 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: ./gradlew connectedCheck
-          
+
       - name: Upload Reports
         uses: actions/upload-artifact@v1
         with:
           name: reports
           path: currency-formatter/build/reports
+
