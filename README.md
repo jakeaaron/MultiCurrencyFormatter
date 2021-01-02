@@ -1,4 +1,4 @@
-[![](https://jitpack.io/v/jakeaaron/MultiCurrencyFormatter.svg)](https://jitpack.io/#jakeaaron/MultiCurrencyFormatter)
+[![](https://jitpack.io/v/jakeaaron/MultiCurrencyFormatter.svg)](https://jitpack.io/#jakeaaron/MultiCurrencyFormatter) [![codecov](https://codecov.io/gh/jakeaaron/MultiCurrencyFormatter/branch/main/graph/badge.svg?token=77DF25LDEN)](https://codecov.io/gh/jakeaaron/MultiCurrencyFormatter)
 
 
 # MultiCurrencyFormatter
