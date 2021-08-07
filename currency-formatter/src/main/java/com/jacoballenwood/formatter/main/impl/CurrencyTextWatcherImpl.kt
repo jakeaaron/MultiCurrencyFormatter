@@ -5,9 +5,9 @@ import android.text.Spannable
 import android.text.TextWatcher
 import android.widget.EditText
 import com.jacoballenwood.formatter.ext.fitText
+import com.jacoballenwood.formatter.ext.indexOfLastDigit
 import com.jacoballenwood.formatter.ext.withSuperscript
 import com.jacoballenwood.formatter.main.*
-import com.jacoballenwood.formatter.util.StringUtil.indexOfLastDigit
 import java.lang.ref.WeakReference
 import java.math.BigDecimal
 
@@ -80,7 +80,7 @@ class CurrencyTextWatcherImpl internal constructor(
         val sel = if (currentIndexOfCents > -1) {
             (indexOfDecimalPoint + currentIndexOfCents) + if (isDeleting) 0 else 1
         } else
-            indexOfLastDigit(requireEditText.text?.toString()) + 1
+            (requireEditText.text?.toString()?.indexOfLastDigit() ?: 0) + 1
         if (sel <= requireEditText.length())
             requireEditText.setSelection(sel)
         else

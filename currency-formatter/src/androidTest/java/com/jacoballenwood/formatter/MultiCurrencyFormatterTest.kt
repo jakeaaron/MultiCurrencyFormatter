@@ -28,11 +28,10 @@ class MultiCurrencyFormatterTest {
         return Pair(scenario, act!!)
     }
 
-    private fun setUpFormatter(activity: FragmentActivity): MultiCurrencyFormatter =
-        MultiCurrencyFormatter.newInstance(
-            activity,
-            EditText(activity)
-        )
+    private fun setUpFormatter(activity: FragmentActivity): MultiCurrencyFormatter = MultiCurrencyFormatter.newInstance(
+        activity,
+        EditText(activity)
+    )
 
     @Test
     fun setting_and_getting_amount() {

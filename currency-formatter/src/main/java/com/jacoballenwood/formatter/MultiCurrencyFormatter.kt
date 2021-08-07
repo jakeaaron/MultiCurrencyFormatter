@@ -1,5 +1,7 @@
 package com.jacoballenwood.formatter
 
+import android.os.Handler
+import android.os.Looper
 import android.widget.EditText
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -11,6 +13,7 @@ import com.jacoballenwood.formatter.main.CurrencyTextWatcher
 import com.jacoballenwood.formatter.main.TextChangeListener
 import com.jacoballenwood.formatter.main.impl.CurrencyFormatterImpl
 import java.math.BigDecimal
+import java.text.DecimalFormatSymbols
 import java.util.*
 
 class MultiCurrencyFormatter private constructor(
@@ -28,15 +31,15 @@ class MultiCurrencyFormatter private constructor(
         @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         fun destroy() {
             currencyTextWatcher.destroy()
-            lifecycleOwner.lifecycle.removeObserver(
-                this
-            )
+            lifecycleOwner.lifecycle.removeObserver(this)
             lifecycleObserver = null
         }
     }
 
     init {
-        lifecycleOwner.lifecycle.addObserver(lifecycleObserver!!)
+        Handler(Looper.getMainLooper()).post {
+            lifecycleOwner.lifecycle.addObserver(lifecycleObserver!!)
+        }
     }
 
     /**
@@ -151,3 +154,6 @@ class MultiCurrencyFormatter private constructor(
     }
 
 }
+
+val MultiCurrencyFormatter.decimalFormatSymbols: DecimalFormatSymbols
+    get() = this.currencyTextWatcher.formatter.underlyingDecimalFormat.decimalFormatSymbols

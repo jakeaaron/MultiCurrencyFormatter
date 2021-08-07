@@ -5,8 +5,6 @@ import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.util.*
 
-private var instance: CurrencyFormatterImpl? = null
-
 interface CurrencyFormatter : CurrencyAttrs {
     val underlyingDecimalFormat: DecimalFormat
     fun parse(currency: String): BigDecimal
@@ -14,6 +12,7 @@ interface CurrencyFormatter : CurrencyAttrs {
     fun format(currency: BigDecimal, decimals: Boolean): String
 
     companion object {
+        private var instance: CurrencyFormatterImpl? = null
 
         /**
          * Returns a [CurrencyFormatterImpl] for the specified locale. This is equivalent to

@@ -78,9 +78,7 @@ class CurrencyFormatterImpl internal constructor(
     /**
      *
      */
-    override fun format(currency: String, decimals: Boolean): String {
-        return format(parse(currency), decimals)
-    }
+    override fun format(currency: String, decimals: Boolean): String = format(parse(currency), decimals)
 
     /**
      *

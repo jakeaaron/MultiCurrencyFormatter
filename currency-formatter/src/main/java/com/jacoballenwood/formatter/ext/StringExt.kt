@@ -19,3 +19,13 @@ fun String.withSuperscript(startIdx: Int, endIdx: Int): Spannable = SpannableStr
         0
     )
 }
+
+fun String.indexOfLastDigit(): Int {
+    var result = 0
+    for (i in this.indices) {
+        if (Character.isDigit(this[i])) {
+            result = i
+        }
+    }
+    return result
+}
