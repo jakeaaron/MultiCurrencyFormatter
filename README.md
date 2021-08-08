@@ -158,6 +158,7 @@ If you need access to the underlying `DecimalFormat` instance, it can be accesse
 val multiCurrencyFormatter = MultiCurrencyFormatter.newInstance(viewLifecycleOwner, editText)
 val decimalFormat = multiCurrencyFormatter.currencyTextWatcher.formatter.underlyingDecimalFormat
 ```
+If you just need access to the underlying `DecimalFormat`s `decimalFormatSymbols`, use the extension field `MultiCurrencyFormatter.decimalFormatSymbols`. This is useful for accessing the `decimalSeparator`, for instance.
 
 ## How to test the software
 
